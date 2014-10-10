@@ -31,7 +31,7 @@
     "github-url-to-object": "^1.4.0",
     "gravatar": "^1.0.6",
     "handlebars": "^2.0.0-alpha.2",
-    "hapi": "^6.0.0",
+    "hapi": "^7.0.0",
     "hapi-auth-cookie": "^1.0.3",
     "highlight.js": "^8.2.0",
     "hoek": "^2.4.1",

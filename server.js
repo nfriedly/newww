@@ -14,7 +14,10 @@ bole.output({
 });
 
 // set up the server
-var server = new Hapi.Server(config.host, config.port, config.server)
+var server = new Hapi.Server(config.host, config.port, config.server);
+
+// set up views
+server.views(config.views);
 
 // configure couch
 var couchDB = require('./adapters/couchDB');

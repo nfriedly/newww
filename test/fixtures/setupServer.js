@@ -3,16 +3,13 @@ var Hapi = require('hapi'),
     metricsConfig = config.metrics,
     MetricsClient = require('newww-metrics');
 
-var serverOptions = {
-  views: config.server.views
-};
-
 module.exports = function (done) {
   process.env.NODE_ENV = 'dev';
 
   var metrics = new MetricsClient(metricsConfig);
 
-  var server = Hapi.createServer(serverOptions);
+  var server = Hapi.createServer();
+  server.views(config.views);
   server.methods = require('./mock-server-methods')(server);
 
   server.pack.register(require('hapi-auth-cookie'), function (err) {
