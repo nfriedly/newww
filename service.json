@@ -1,26 +1,10 @@
 {
   "newww": {
+    "processes": 4,
     "env": {
-      "PORT": "8081",
+      "PORT": "808%i",
       "NODE_ENV": "PRODUCTION"
-    }
-  },
-  "newww2": {
-    "env": {
-      "PORT": "8082",
-      "NODE_ENV": "PRODUCTION"
-    }
-  },
-  "newww3": {
-    "env": {
-      "PORT": "8083",
-      "NODE_ENV": "PRODUCTION"
-    }
-  },
-  "newww4": {
-    "env": {
-      "PORT": "8084",
-      "NODE_ENV": "PRODUCTION"
-    }
+    },
+    "args": {}
   }
 }
