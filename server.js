@@ -40,7 +40,7 @@ server.pack.register(require('hapi-auth-cookie'), function (err) {
     appendNext: 'done',
     cookie: config.session.cookie,
     validateFunc: function (session, cb) {
-      cache.get(session.sid, function (err, cached) {
+      cache.get(session.sid, function (err, value, cached, report) {
 
         if (err) {
           return cb(err, false);
@@ -49,7 +49,7 @@ server.pack.register(require('hapi-auth-cookie'), function (err) {
           return cb(null, false);
         }
 
-        return cb(null, true, cached.item)
+        return cb(null, true, value)
       })
     }
   });

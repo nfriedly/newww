@@ -76,7 +76,7 @@ function token (request, reply) {
       hash = sha(token),
       pwKey = 'pwrecover_' + hash;
 
-  cache.get(pwKey, function (err, cached) {
+  cache.get(pwKey, function (err, value, cached, report) {
     if (err) {
       return showError(pwKey, 500, 'Error getting token from Redis', opts);
     }
@@ -85,9 +85,9 @@ function token (request, reply) {
       return showError(pwKey, 500, 'Token not found, or invalid', opts);
     }
 
-    var name = cached.item.name,
-        email = cached.item.email,
-        verify = cached.item.token;
+    var name = value.name,
+        email = value.email,
+        verify = value.token;
 
     if (verify !== token) {
       return showError(pwKey, 500, 'Token not found, or invalid', opts);

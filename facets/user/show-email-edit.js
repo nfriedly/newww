@@ -224,7 +224,7 @@ function confirm (request, reply) {
       confKey = 'email_change_conf_' + confHash,
       timer = {};
 
-  cache.get(confKey, function (er, cached) {
+  cache.get(confKey, function (er, value, cached, report) {
     if (er) {
       return showError(confKey, 500, 'Error getting token from Redis', opts);
     }
@@ -233,15 +233,15 @@ function confirm (request, reply) {
       return showError(confKey, 500, 'Token not found, or invalid', opts);
     }
 
-    var name = cached.item.name;
+    var name = value.name;
     if (name !== opts.user.name) {
       return showError({changeEmailFor: name, loggedInAs: opts.user.name}, 500, 'This request was for someone else', opts);
     }
 
-    var email1 = cached.item.email1,
-        email2 = cached.item.email2,
-        confTok = cached.item.token,
-        hash = cached.item.hash;
+    var email1 = value.email1,
+        email2 = value.email2,
+        confTok = value.token,
+        hash = value.hash;
 
     if (hash !== confHash) {
       return showError({hash: hash, confHash: confHash}, 500, 'Math is broken, sorry', opts);
@@ -296,7 +296,7 @@ function revert (request, reply) {
       revKey = 'email_change_rev_' + revHash,
       timer = {};
 
-  cache.get(revKey, function (er, cached) {
+  cache.get(revKey, function (er, value, cached, report) {
     if (er) {
       return showError(revKey, 500, 'Error getting token from Redis', opts);
     }
@@ -305,16 +305,16 @@ function revert (request, reply) {
       return showError(revKey, 500, 'Token not found, or invalid', opts);
     }
 
-    var name = cached.item.name;
+    var name = value.name;
     if (name !== opts.user.name) {
       return showError({changeEmailFor: name, loggedInAs: opts.user.name}, 500, 'This request was for someone else', opts);
     }
 
-    var email1 = cached.item.email1,
-        email2 = cached.item.email2,
-        confHash = cached.item.confHash,
+    var email1 = value.email1,
+        email2 = value.email2,
+        confHash = value.confHash,
         confKey = 'email_change_conf_' + confHash,
-        hash = cached.item.hash;
+        hash = value.hash;
 
     if (hash !== revHash) {
       return showError({hash: hash, confHash: confHash}, 500, 'Math is broken, sorry', opts);
