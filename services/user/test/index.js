@@ -131,14 +131,14 @@ describe('setting and deleting sessions', function () {
   }
 
   it('sets a session', function (done) {
-    server.methods.user.setSession(request)({name: 'boom'}, function (er) {
+    server.methods.user.setSession(request, {name: 'boom'}, function (er) {
       expect(er).to.be.null;
       done();
     });
   });
 
   it('deletes a session', function (done) {
-    server.methods.user.delSession(request)({name: 'boom'}, function (er) {
+    server.methods.user.delSession(request, {name: 'boom'}, function (er) {
       expect(er).to.be.null;
       done();
     })

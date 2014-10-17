@@ -7,7 +7,7 @@ var murmurhash = require('murmurhash'),
 
 module.exports = function login (request, reply) {
   var loginUser = request.server.methods.user.loginUser,
-      setSession = request.server.methods.user.setSession(request),
+      setSession = request.server.methods.user.setSession,
       showError = request.server.methods.errors.showError(reply),
       addMetric = metrics.addMetric,
       addLatencyMetric = metrics.addPageLatencyMetric,
@@ -52,7 +52,7 @@ module.exports = function login (request, reply) {
         // console.log("Login received, user available, setting session")
         // console.log("User is",user)
 
-        setSession(user, function (err) {
+        setSession(request, user, function (err) {
           if (err) {
             return showError(err, 500, 'could not set session for ' + user.name, opts);
           }

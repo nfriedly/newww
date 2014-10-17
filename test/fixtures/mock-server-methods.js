@@ -130,21 +130,19 @@ module.exports = function (server) {
         return next(null);
       },
 
-      delSession: function (request) {
-        return function (user, next) {
-          var sid = murmurhash.v3(user.name, 55).toString(16);
+      delSession: function (request, user, next) {
+        var sid = murmurhash.v3(user.name, 55).toString(16);
 
-          user.sid = sid;
+        user.sid = sid;
 
-          request.server.app.cache.drop(sid, function (err) {
-            if (err) {
-              return next(Hapi.error.internal('there was an error clearing the cache'));
-            }
+        request.server.app.cache.drop(sid, function (err) {
+          if (err) {
+            return next(Hapi.error.internal('there was an error clearing the cache'));
+          }
 
-            request.auth.session.clear();
-            return next(null);
-          });
-        }
+          request.auth.session.clear();
+          return next(null);
+        });
       },
 
       getUser: function (username, next) {
@@ -180,21 +178,19 @@ module.exports = function (server) {
         return next(null, "yep, it's cool");
       },
 
-      setSession: function (request) {
-        return function (user, next) {
-          var sid = murmurhash.v3(user.name, 55).toString(16);
+      setSession: function (request, user, next) {
+        var sid = murmurhash.v3(user.name, 55).toString(16);
 
-          user.sid = sid;
+        user.sid = sid;
 
-          server.app.cache.set(sid, user, 0, function (err) {
-            if (err) {
-              return next(Hapi.error.internal('there was an error setting the cache'));
-            }
+        server.app.cache.set(sid, user, 0, function (err) {
+          if (err) {
+            return next(Hapi.error.internal('there was an error setting the cache'));
+          }
 
-            request.auth.session.set({sid: sid});
-            return next(null);
-          });
-        }
+          request.auth.session.set({sid: sid});
+          return next(null);
+        });
       },
 
       signupUser: function (acct, next) {

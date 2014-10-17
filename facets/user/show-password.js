@@ -15,7 +15,7 @@ module.exports = function (request, reply) {
 
   var changePass = request.server.methods.user.changePass,
       loginUser = request.server.methods.user.loginUser,
-      setSession = request.server.methods.user.setSession(request),
+      setSession = request.server.methods.user.setSession,
       showError = request.server.methods.errors.showError(reply),
       addMetric = metrics.addMetric,
       addLatencyMetric = metrics.addPageLatencyMetric,
@@ -72,7 +72,7 @@ module.exports = function (request, reply) {
           return showError(er, 500, 'Unable to login user', opts);
         }
 
-        setSession(user, function (err) {
+        setSession(request, user, function (err) {
           if (err) {
             return showError(err, 500, 'Unable to set session for ' + user.name, opts);
           }

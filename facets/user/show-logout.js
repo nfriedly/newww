@@ -1,7 +1,7 @@
 var metrics = require('newww-metrics')();
 
 module.exports = function logout (request, reply) {
-  var delSession = request.server.methods.user.delSession(request),
+  var delSession = request.server.methods.user.delSession,
       showError = request.server.methods.errors.showError(reply),
       user = request.auth.credentials,
       addMetric = metrics.addMetric,
@@ -10,7 +10,7 @@ module.exports = function logout (request, reply) {
 
   if (!user) return redirectToHome();
 
-  delSession(user, function (er) {
+  delSession(request, user, function (er) {
     if (er) {
       return showError(er, 500, 'unable to delete session for logout for user ' + user.name, {namespace: 'user-logout'});
     }

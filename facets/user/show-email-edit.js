@@ -209,7 +209,7 @@ function sendEmails (conf, rev, request, reply) {
 
 function confirm (request, reply) {
   var methods = request.server.methods,
-      setSession = request.server.methods.user.setSession(request),
+      setSession = request.server.methods.user.setSession,
       showError = request.server.methods.errors.showError(reply);
 
   var opts = {
@@ -260,7 +260,7 @@ function confirm (request, reply) {
         opts.user.email = email2;
         opts.confirmed = true;
 
-        setSession(opts.user, function (err) {
+        setSession(request, opts.user, function (err) {
           if (err) {
             showError(err, 500, 'Unable to set the session for user ' + opts.user.name, opts);
           }
@@ -281,7 +281,7 @@ function confirm (request, reply) {
 
 function revert (request, reply) {
   var methods = request.server.methods,
-      setSession = request.server.methods.user.setSession(request),
+      setSession = request.server.methods.user.setSession,
       showError = request.server.methods.errors.showError(reply);
 
   var opts = {
@@ -337,7 +337,7 @@ function revert (request, reply) {
 
           opts.user.email = email1;
 
-          setSession(opts.user, function (err) {
+          setSession(request, opts.user, function (err) {
             if (err) {
               return showError(err, 500, 'Unable to set the session for user ' + opts.user.name, opts);
             }

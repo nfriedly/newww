@@ -8,7 +8,7 @@ var transform = require('./presenters/profile').transform,
 module.exports = function (options) {
   return function (request, reply) {
     var saveProfile = request.server.methods.user.saveProfile,
-        setSession = request.server.methods.user.setSession(request),
+        setSession = request.server.methods.user.setSession,
         showError = request.server.methods.errors.showError(reply),
         addMetric = metrics.addMetric,
         addLatencyMetric = metrics.addPageLatencyMetric,
@@ -34,7 +34,7 @@ module.exports = function (options) {
             return new Error('ruh roh, something went wrong')
           }
 
-          setSession(opts.user, function (err) {
+          setSession(request, opts.user, function (err) {
             if (err) {
               return showError(err, 500, 'Unable to set the session for user ' + opts.user.name, opts);
             }

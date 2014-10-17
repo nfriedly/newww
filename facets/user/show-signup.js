@@ -8,8 +8,8 @@ var Joi = require('joi'),
 
 module.exports = function signup (request, reply) {
   var signupUser = request.server.methods.user.signupUser,
-      setSession = request.server.methods.user.setSession(request),
-      delSession = request.server.methods.user.delSession(request),
+      setSession = request.server.methods.user.setSession,
+      delSession = request.server.methods.user.delSession,
       showError = request.server.methods.errors.showError(reply),
       addMetric = metrics.addMetric,
       addLatencyMetric = metrics.addPageLatencyMetric,
@@ -59,7 +59,7 @@ module.exports = function signup (request, reply) {
         return reply.view('user/signup-form', opts);
       }
 
-      delSession(value, function (er) {
+      delSession(request, value, function (er) {
 
         if (er) {
           return showError(er, 500, 'Unable to delete the session for user ' + data.name, opts);
@@ -71,7 +71,7 @@ module.exports = function signup (request, reply) {
             return showError(er, 403, 'Failed to create account', opts);
           }
 
-          setSession(user, function (err) {
+          setSession(request, user, function (err) {
 
             if (err) {
               return showError(err, 500, 'Unable to set the session for user ' + opts.user.name, opts);
