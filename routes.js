@@ -403,6 +403,7 @@ function fallback (request, reply) {
         return reply.redirect('/package/' + package._id);
       }
 
+      opts.name = route;
       return reply.view('errors/registry-notfound', opts).code(404);
     });
   });

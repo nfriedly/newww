@@ -7,6 +7,10 @@ module.exports = function getPage (name, next) {
 
   request(url, function (err, resp, content) {
 
+    if (resp.statusCode === 404) {
+      return next(new Error('not found'), null);
+    }
+
     return next(err, marked.parse(content));
   });
 }
