@@ -46,6 +46,15 @@
 </ul>
 
 <h2 class="centered">
+  <a id="staff-picks" href="#staff-picks">Staff Picks</a>
+</h2>
+<ul class="columnar">
+  {{#each staffPicks}}
+  <li>{{> package-widget}}</li>
+  {{/each}}
+</ul>
+
+<h2 class="centered">
   <a id="recent" href="/browse/updated">Recently Updated Packages</a>
 </h2>
 <ul class="columnar">

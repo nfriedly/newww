@@ -11,6 +11,22 @@ var Hapi = require('hapi'),
 module.exports = function (request, reply) {
   var timer = { start: Date.now() };
 
+  var yetAnotherPackagePresenter = function(pkg) {
+    pkg.installCommand = "npm install " + pkg.name + (pkg.preferGlobal ? " -g" : "")
+    pkg.starCount = pkg.users ? Object.keys(pkg.users).length : 0
+    pkg.url = "/package/" + pkg.name
+
+    pkg.version = pkg['dist-tags'].latest
+    if (pkg.versions) {
+      pkg.version = pkg.versions[pkg.version].version
+      pkg.publishedBy = pkg.versions[pkg.version]._npmUser
+    }
+    pkg.lastPublished = moment(pkg.time[pkg.version]).fromNow()
+    delete pkg.versions
+    delete pkg.readme
+    return pkg
+  }
+
   load(request, function (err, cached) {
 
     var opts = {
@@ -21,21 +37,14 @@ module.exports = function (request, reply) {
       authors: cached.authors || [],
       downloads: cached.downloads,
       totalPackages: cached.totalPackages,
-      explicit: require("../../lib/explicit-installs.json").slice(0,15).map(function(pkg) {
-        pkg.installCommand = "npm install " + pkg.name + (pkg.preferGlobal ? " -g" : "")
-        pkg.starCount = pkg.users ? Object.keys(pkg.users).length : 0
-        pkg.url = "/package/" + pkg.name
-
-        pkg.version = pkg['dist-tags'].latest
-        if (pkg.versions) {
-          pkg.version = pkg.versions[pkg.version].version
-          pkg.publishedBy = pkg.versions[pkg.version]._npmUser
-        }
-        pkg.lastPublished = moment(pkg.time[pkg.version]).fromNow()
-        delete pkg.versions
-
-        return pkg
-      })
+      explicit: require("npm-collection-explicit-installs")
+        .packages
+        .slice(0,15)
+        .map(yetAnotherPackagePresenter),
+      staffPicks: require("npm-collection-staff-picks")
+        .packages
+        .slice(0,15)
+        .map(yetAnotherPackagePresenter),
     };
 
     timer.end = Date.now();
