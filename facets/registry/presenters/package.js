@@ -10,6 +10,18 @@ var marked = require('marked'),
     cheerio = require('cheerio'),
     log = require('bole')('registry-package-presenter');
 
+// Markdown Syntax Highlighting
+// See https://github.com/chjj/marked/pull/418
+var hljs = require('highlight.js');
+var renderer = new marked.Renderer();
+renderer.code = function(code, language){
+  return fmt(
+    "<pre><code class=\"hljs %s\">%s</code></pre>",
+    language,
+    hljs.highlight(language, code).value
+  )
+};
+
 module.exports = function package (data, cb) {
 
   if (data.time && data['dist-tags']) {
@@ -156,7 +168,7 @@ function parseReadme (data, cb) {
       (data.readmeFilename.match(/\.(m?a?r?k?d?o?w?n?)$/i) &&
        !data.readmeFilename.match(/\.$/))) {
     try {
-      p = marked.parse(data.readme);
+      p = marked.parse(data.readme, {renderer: renderer});
     } catch (er) {
       return cb(new Error('error parsing readme'));
     }
