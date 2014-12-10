@@ -13,7 +13,7 @@ if (process.argv[2] === 't' || process.argv[2] === 'test') {
 var paths = {}
 
 paths.facets = fs.readdirSync(path.join(root, 'handlers'));
-paths.services = fs.readdirSync(path.join(root, 'services'));
+paths.models = fs.readdirSync(path.join(root, 'models'));
 
 Object.keys(paths).forEach(function (type) {
   paths[type].forEach(function (plugin) {

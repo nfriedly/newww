@@ -12,18 +12,18 @@ module.exports = [
     options: config.csp
   },
   {
-    plugin: require('../services/user'),
+    plugin: require('../models/user'),
     options: config.couch
   },
-  require('../services/registry'),
-  require('../services/corporate'),
-  require('../services/errors'),
+  require('../models/registry'),
+  require('../models/corporate'),
+  require('../models/errors'),
   {
-    plugin: require('../services/npme'),
+    plugin: require('../models/npme'),
     options: config
   },
   {
-    plugin: require('../services/downloads'),
+    plugin: require('../models/downloads'),
     options: config.downloads
   },
   {
