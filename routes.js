@@ -1,5 +1,5 @@
 var config = require('./config'),
-    ops = require('./facets/ops'),
+    ops = require('./handlers/ops'),
     fmt = require('util').format,
     validatePackageName = require('validate-npm-package-name'),
     Hoek = require("hoek")
@@ -60,31 +60,31 @@ var unauthenticatedRoutes = [
   },{
     path: "/",
     method: "GET",
-    handler: require('./facets/company/show-homepage')
+    handler: require('./handlers/company/show-homepage')
   },{
     path: "/contact",
     method: "GET",
-    handler: require('./facets/company/show-contact')
+    handler: require('./handlers/company/show-contact')
   },{
     path: "/send-contact",
     method: "POST",
-    handler: require('./facets/company/show-send-contact')(config.user.mail)
+    handler: require('./handlers/company/show-send-contact')(config.user.mail)
   },{
     path: "/support",
     method: "GET",
-    handler: require('./facets/company/show-contact')
+    handler: require('./handlers/company/show-contact')
   },{
     path: "/policies/{policy?}",
     method: "GET",
-    handler: require('./facets/company/show-policy')
+    handler: require('./handlers/company/show-policy')
   },{
     path: "/whoshiring",
     method: "GET",
-    handler: require('./facets/company/show-whoshiring')
+    handler: require('./handlers/company/show-whoshiring')
   },{
     path: "/joinwhoshiring",
     method: "GET",
-    handler: require('./facets/company/show-whoshiring-payments')(config.stripe),
+    handler: require('./handlers/company/show-whoshiring-payments')(config.stripe),
     config: {
       plugins: {
         blankie: {
@@ -96,7 +96,7 @@ var unauthenticatedRoutes = [
   },{
     path: "/joinwhoshiring",
     method: "POST",
-    handler: require('./facets/company/show-whoshiring-payments')(config.stripe),
+    handler: require('./handlers/company/show-whoshiring-payments')(config.stripe),
     config: {
       plugins: {
         // tolerate Ajax
@@ -109,32 +109,32 @@ var unauthenticatedRoutes = [
   },{
     path: "/enterprise",
     method: "GET",
-    handler: require('./facets/enterprise/show-index'),
+    handler: require('./handlers/enterprise/show-index'),
     config: enterpriseConfig
   },{
     path: "/enterprise-start-signup",
     method: "POST",
-    handler: require('./facets/enterprise/show-ula'),
+    handler: require('./handlers/enterprise/show-ula'),
     config: enterpriseConfig
   },{
     path: "/enterprise-contact-me",
     method: "POST",
-    handler: require('./facets/enterprise/show-contact-me'),
+    handler: require('./handlers/enterprise/show-contact-me'),
     config: enterpriseConfig
   },{
     path: "/enterprise-trial-signup",
     method: "POST",
-    handler: require('./facets/enterprise/show-trial-signup'),
+    handler: require('./handlers/enterprise/show-trial-signup'),
     config: enterpriseConfig
   },{
     path: "/enterprise-verify",
     method: "GET",
-    handler: require('./facets/enterprise/show-verification'),
+    handler: require('./handlers/enterprise/show-verification'),
     config: enterpriseConfig
   },{
     path: "/package/{package}/{version?}",
     method: "GET",
-    handler: require('./facets/registry/show-package')
+    handler: require('./handlers/registry/show-package')
   },{
     path: "/packages/{package}",
     method: "GET",
@@ -179,7 +179,7 @@ var unauthenticatedRoutes = [
     // - all the packages that depend on the given package
     path: "/browse/{p*}",
     method: "GET",
-    handler: require('./facets/registry/show-browse')
+    handler: require('./handlers/registry/show-browse')
   },{
     path: "/keyword/{kw}",
     method: "GET",
@@ -189,11 +189,11 @@ var unauthenticatedRoutes = [
   },{
     path: "/recent-authors/{since?}",
     method: "GET",
-    handler: require('./facets/registry/show-recent-authors')
+    handler: require('./handlers/registry/show-recent-authors')
   },{
     path: "/star",
     method: "POST",
-    handler: require('./facets/registry/show-star'),
+    handler: require('./handlers/registry/show-star'),
     config: {
       plugins: {
         // tolerate Ajax
@@ -206,55 +206,55 @@ var unauthenticatedRoutes = [
   },{
     path: "/search/{q?}",
     method: "GET",
-    handler: require('./facets/registry/show-search')(config.search)
+    handler: require('./handlers/registry/show-search')(config.search)
   },{
     path: "/~{name}",
     method: "GET",
-    handler: require('./facets/user/show-profile')(config.user.profileFields)
+    handler: require('./handlers/user/show-profile')(config.user.profileFields)
   },{
     path: "/profile/{name}",
     method: "GET",
-    handler: require('./facets/user/show-profile')(config.user.profileFields)
+    handler: require('./handlers/user/show-profile')(config.user.profileFields)
   },{
     path: "/~/{name}",
     method: "GET",
-    handler: require('./facets/user/show-profile')(config.user.profileFields)
+    handler: require('./handlers/user/show-profile')(config.user.profileFields)
   },{
     path: "/signup",
     method: "GET",
-    handler: require('./facets/user/show-signup')
+    handler: require('./handlers/user/show-signup')
   },{
     path: "/signup",
     method: "HEAD",
-    handler: require('./facets/user/show-signup')
+    handler: require('./handlers/user/show-signup')
   },{
     path: "/signup",
     method: "POST",
-    handler: require('./facets/user/show-signup')
+    handler: require('./handlers/user/show-signup')
   },{
     path: "/login",
     method: "GET",
-    handler: require('./facets/user/show-login')
+    handler: require('./handlers/user/show-login')
   },{
     path: "/login",
     method: "POST",
-    handler: require('./facets/user/show-login')
+    handler: require('./handlers/user/show-login')
   },{
     path: "/logout",
     method: "GET",
-    handler: require('./facets/user/show-logout')
+    handler: require('./handlers/user/show-logout')
   },{
     path: "/forgot/{token?}",
     method: "GET",
-    handler: require('./facets/user/show-forgot')(config.user.mail)
+    handler: require('./handlers/user/show-forgot')(config.user.mail)
   },{
     path: "/forgot/{token?}",
     method: "HEAD",
-    handler: require('./facets/user/show-forgot')(config.user.mail)
+    handler: require('./handlers/user/show-forgot')(config.user.mail)
   },{
     path: "/forgot/{token?}",
     method: "POST",
-    handler: require('./facets/user/show-forgot')(config.user.mail)
+    handler: require('./handlers/user/show-forgot')(config.user.mail)
   },{
     path: "/_monitor/ping",
     method: "GET",
@@ -300,66 +300,66 @@ var authenticatedRoutes = [
     // shortcut for viewing your own stars
     path: "/star",
     method: "GET",
-    handler: require('./facets/registry/show-star'),
+    handler: require('./handlers/registry/show-star'),
   },{
     path: "/~",
     method: "GET",
-    handler: require('./facets/user/show-profile')(config.user.profileFields)
+    handler: require('./handlers/user/show-profile')(config.user.profileFields)
   },{
     path: "/profile",
     method: "GET",
-    handler: require('./facets/user/show-profile')(config.user.profileFields)
+    handler: require('./handlers/user/show-profile')(config.user.profileFields)
   },{
     path: "/profile-edit",
     method: "GET",
-    handler: require('./facets/user/show-profile-edit')(config.user.profileFields)
+    handler: require('./handlers/user/show-profile-edit')(config.user.profileFields)
   },{
     path: "/profile-edit",
     method: "PUT",
-    handler: require('./facets/user/show-profile-edit')(config.user.profileFields)
+    handler: require('./handlers/user/show-profile-edit')(config.user.profileFields)
   },{
     path: "/profile-edit",
     method: "POST",
-    handler: require('./facets/user/show-profile-edit')(config.user.profileFields)
+    handler: require('./handlers/user/show-profile-edit')(config.user.profileFields)
   },{
     path: "/email-edit",
     method: "GET",
-    handler: require('./facets/user/show-email-edit')(config.user.mail)
+    handler: require('./handlers/user/show-email-edit')(config.user.mail)
   },{
     path: "/email-edit",
     method: "HEAD",
-    handler: require('./facets/user/show-email-edit')(config.user.mail)
+    handler: require('./handlers/user/show-email-edit')(config.user.mail)
   },{
     path: "/email-edit",
     method: "PUT",
-    handler: require('./facets/user/show-email-edit')(config.user.mail)
+    handler: require('./handlers/user/show-email-edit')(config.user.mail)
   },{
     path: "/email-edit",
     method: "POST",
-    handler: require('./facets/user/show-email-edit')(config.user.mail)
+    handler: require('./handlers/user/show-email-edit')(config.user.mail)
   },{
     // confirm or revert
     // /email-edit/confirm/1234567
     // /email-edit/revert/1234567
     path: "/email-edit/{token*2}",
     method: "GET",
-    handler: require('./facets/user/show-email-edit')(config.user.mail)
+    handler: require('./handlers/user/show-email-edit')(config.user.mail)
   },{
     path: "/email-edit/{token*2}",
     method: "HEAD",
-    handler: require('./facets/user/show-email-edit')(config.user.mail)
+    handler: require('./handlers/user/show-email-edit')(config.user.mail)
   },{
     path: "/password",
     method: "GET",
-    handler: require('./facets/user/show-password')
+    handler: require('./handlers/user/show-password')
   },{
     path: "/password",
     method: "HEAD",
-    handler: require('./facets/user/show-password')
+    handler: require('./handlers/user/show-password')
   },{
     path: "/password",
     method: "POST",
-    handler: require('./facets/user/show-password')
+    handler: require('./handlers/user/show-password')
   }
 
 ]

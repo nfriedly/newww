@@ -12,7 +12,7 @@ if (process.argv[2] === 't' || process.argv[2] === 'test') {
 
 var paths = {}
 
-paths.facets = fs.readdirSync(path.join(root, 'facets'));
+paths.facets = fs.readdirSync(path.join(root, 'handlers'));
 paths.services = fs.readdirSync(path.join(root, 'services'));
 
 Object.keys(paths).forEach(function (type) {
