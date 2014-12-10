@@ -4,7 +4,7 @@
   "description": "a service for accessing the downloads API",
   "main": "index.js",
   "scripts": {
-    "test": "lab -vC"
+    "test": "lab --verbose --colors --ignore '$$bole'"
   },
   "author": "npm, Inc. <support@npmjs.com>",
   "license": "ISC",
