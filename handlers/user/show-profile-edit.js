@@ -1,4 +1,4 @@
-var transform = require('./presenters/profile').transform,
+var transform = require('../../presenters/profile').transform,
     Hapi = require('hapi'),
     Joi = require('joi'),
     log = require('bole')('user-profile-edit'),

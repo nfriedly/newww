@@ -1,5 +1,5 @@
 var Hapi = require('hapi'),
-    presentPackage = require('./presenters/package'),
+    presentPackage = require('../../presenters/package'),
     log = require('bole')('registry-package'),
     metrics = require('newww-metrics')();
 
