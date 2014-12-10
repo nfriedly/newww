@@ -1,4 +1,4 @@
-var config = require('../config');
+var config = require('./config');
 
 // all those plugins
 module.exports = [
@@ -12,22 +12,22 @@ module.exports = [
     options: config.csp
   },
   {
-    plugin: require('../models/user'),
+    plugin: require('./models/user'),
     options: config.couch
   },
-  require('../models/registry'),
-  require('../models/corporate'),
-  require('../models/errors'),
+  require('./models/registry'),
+  require('./models/corporate'),
+  require('./models/errors'),
   {
-    plugin: require('../models/npme'),
+    plugin: require('./models/npme'),
     options: config
   },
   {
-    plugin: require('../models/downloads'),
+    plugin: require('./models/downloads'),
     options: config.downloads
   },
   {
-    plugin: require('./bonbon'),
+    plugin: require('./adapters/bonbon'),
     options: {
       stamp: config.stamp,
       canonicalHost: config.canonicalHost,
