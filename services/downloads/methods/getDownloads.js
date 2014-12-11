@@ -12,7 +12,8 @@ module.exports = function getDownloads (url) {
 
     request.get({
       url: endpoint,
-      json: true
+      json: true,
+      strictSSL: false
     }, function (err, resp, body) {
       body = body || {error: 'empty body'};
 
