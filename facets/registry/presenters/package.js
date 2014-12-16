@@ -294,6 +294,8 @@ function getAlternativeLicenseUrlFromName (name) {
 
   if (alternativeLicenseMap[name.toLowerCase()]) {
     return alternativeLicenseMap[name.toLowerCase()];
+  } else {
+    return null;
   }
 }
 
