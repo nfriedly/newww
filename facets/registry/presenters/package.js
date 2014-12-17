@@ -8,7 +8,8 @@ var marked = require('marked'),
     similarity = require('similarity'),
     gh = require('github-url-to-object'),
     cheerio = require('cheerio'),
-    log = require('bole')('registry-package-presenter');
+    log = require('bole')('registry-package-presenter'),
+    osiLicenses = require('osi-licenses');
 
 module.exports = function package (data, cb) {
 
@@ -266,19 +267,11 @@ function getOssLicenseUrlFromName (name) {
     'lgplv2': 'LGPL-2.1'
   }
 
-  /**
-   * Generate this list by visiting http://opensource.org/licenses/alphabetical and executing the
-   * following in your browser's console:
-   *
-   * jQuery.unique(jQuery('#block-system-main li a[href^=/licenses/]').map(function() {return jQuery(this).attr('href').substr(10);}))
-   */
-  var validOSSLicenses = ["MS-PL", "Zlib", "MS-RL", "AFL-3.0", "MIT", "APL-1.0", "Motosoto", "APSL-2.0", "MPL-2.0", "AAL", "Multics", "BSD-2-Clause", "NASA-1.3", "CECILL-2.1", "NTP", "CDDL-1.0", "Naumen", "CUA-OPL-1.0", "NGPL", "EPL-1.0", "Nokia", "EFL-2.0", "NPOSL-3.0", "EUPL-1.1", "OCLC-2.0", "Frameworx-1.0", "OFL-1.1", "GPL-2.0", "OGTSL", "LGPL-2.1", "OSL-3.0", "HPND", "PHP-3.0", "IPA", "PostgreSQL", "LPPL-1.3c", "Python-2.0", "MirOS", "CNRI-Python", "Apache-2.0", "QPL-1.0", "BSD-3-Clause", "RPSL-1.0", "CATOSL-1.1", "RPL-1.5", "EUDatagrid", "RSCPL", "Entessa", "SimPL-2.0", "AGPL-3.0", "Sleepycat", "LGPL-3.0", "SPL-1.0", "LPL-1.02", "Watcom-1.0", "Artistic-2.0", "NCSA", "CPAL-1.0", "VSL-1.0", "Fair", "IPL-1.0", "ZPL-2.0", "Xnet", "WXwindows", "W3C", "ISC", "GPL-3.0", "ECL-2.0", "BSL-1.0"];
-
   if (licenseMap[name.toLowerCase()]) {
     name = licenseMap[name.toLowerCase()];
   }
 
-  if (validOSSLicenses.indexOf(name) != -1) {
+  if (osiLicenses[name]) {
     return base + name;
   } else {
     return null;

@@ -70,6 +70,7 @@
     "npm2es": "git://github.com/npm/npm2es",
     "numbat-emitter": "^1.0.0",
     "number-grouper": "0.0.1",
+    "osi-licenses": "^0.1.0",
     "parse-link-header": "^0.2.0",
     "pkgs": "^1.1.0",
     "redis": "^0.12.1",
