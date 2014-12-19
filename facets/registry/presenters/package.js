@@ -273,7 +273,7 @@ function getOssLicenseUrlFromName (name) {
     name = licenseMap[name.toLowerCase()];
   }
 
-  if (osiLicenses[name.toLowerCase()]) {
+  if (osiLicenses.indexOf(name.toLowerCase()) != -1) {
     return base + name;
   } else {
     return null;
