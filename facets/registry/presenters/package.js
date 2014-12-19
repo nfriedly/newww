@@ -9,7 +9,9 @@ var marked = require('marked'),
     gh = require('github-url-to-object'),
     cheerio = require('cheerio'),
     log = require('bole')('registry-package-presenter'),
-    osiLicenses = require('osi-licenses');
+    osiLicenses = Object.keys(require('osi-licenses')).map(function(license) {
+      return license.toLowerCase();
+    });
 
 module.exports = function package (data, cb) {
 
@@ -271,7 +273,7 @@ function getOssLicenseUrlFromName (name) {
     name = licenseMap[name.toLowerCase()];
   }
 
-  if (osiLicenses[name]) {
+  if (osiLicenses[name.toLowerCase()]) {
     return base + name;
   } else {
     return null;
